@@ -1,0 +1,137 @@
+<head>
+	<title> Timesheet Generator by B21 </title>
+	<link rel="stylesheet" href="/static/css/custom.css">
+	<link rel="stylesheet" href="/static/css/normalize.css">
+	<link rel="stylesheet" href="/static/css/skeleton.css">
+</head>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		<ul>
+			{% for message in messages %}
+				<li>{{ message[1] }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+{% endwith %}
+
+<div id="timesheet-generator">
+	  
+	<h1>Timesheet Generator</h1>
+
+	<form action="" method="post">{{ form.csrf_token }}
+		<div class="form-section">
+			<h2> Personal data </h2>
+
+			<div class="flex-subsection">
+				<div class="col-12">
+					<div class="form-field">
+						{{ form.name.label }}
+						{{ form.name }}
+					</div>
+
+					<div class="form-field">
+						{{ form.mcgill_id.label }}
+						{{ form.mcgill_id }}
+						{% if form.mcgill_id.errors %}
+							<ul class="error">
+								{% for error in form.mcgill_id.errors %}
+									<li class="error">{{ error }}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+
+					<div class="form-field">
+						{{ form.hourly_rate.label }}
+						{{ form.hourly_rate }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-section">
+			<h2>Workweek</h2>
+			<div id="week-selector">
+				<div class="form-field">
+					{{ form.week_of_year.label }}
+					
+					<div id="sunday-input">
+						{{ form.week_of_year }}-{{ form.week_of_month }}-{{ form.week_of_day }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-info">
+			<p>
+				Input the time you started and ended work. Unless your browser
+				offers a specialized input method (e.g. Firefox has subfields for
+				hours, minutes, and AM/PM), please input times in the form "HH:MM"
+				with hours in 24-hour form.
+			</p>
+			<p>
+				If you didn't work on a particular day, simply leave it blank.
+			</p>
+		</div>
+
+		<table id="daily-time-input">
+			<tr>
+				<th>Day of the Week</th>
+				<th>Time in</th>
+				<th>Time out</th>
+			</tr>
+
+			<tr>
+				<td>Sunday</td>	
+				<td>{{ form.sunday_in }}</td>
+				<td>{{ form.sunday_out }}</td>
+			</tr>
+
+			<tr>
+				<td>Monday</td>	
+				<td>{{ form.monday_in }}</td>
+				<td>{{ form.monday_out }}</td>
+			</tr>
+
+			<tr>
+				<td>Tuesday</td>	
+				<td>{{ form.tuesday_in }}</td>
+				<td>{{ form.tuesday_out }}</td>
+			</tr>
+
+			<tr>
+				<td>Wednesday</td>	
+				<td>{{ form.wednesday_in }}</td>
+				<td>{{ form.wednesday_out }}</td>
+			</tr>
+
+			<tr>
+				<td>Thursday</td>	
+				<td>{{ form.thursday_in }}</td>
+				<td>{{ form.thursday_out }}</td>
+			</tr>
+
+			<tr>
+				<td>Friday</td>	
+				<td>{{ form.friday_in }}</td>
+				<td>{{ form.friday_out }}</td>
+			</tr>
+
+			<tr>
+				<td>Saturday</td>	
+				<td>{{ form.saturday_in }}</td>
+				<td>{{ form.saturday_out }}</td>
+			</tr>
+		</table>
+
+		<div class="input submit"><input type="submit" value="Generate"></div>
+
+		<!-- <div>{{ form.recaptcha }}</div> -->
+	</form>
+
+
+
+</div>
+

@@ -1,0 +1,23 @@
+# venv folders
+bin/
+include/
+lib/
+share/
+
+# pyenv config files
+pyvenv.cfg
+.python-version
+
+# mac config files
+.DS_Store
+
+# python build files
+__pycache__/
+
+# project config files
+settings.cfg
+prod_setting.cfg
+
+# hide generated pdfs, but keep the file structure
+static/pdf/*
+!static/pdf/.gitkeep

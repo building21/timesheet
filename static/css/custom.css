@@ -1,0 +1,199 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+h1 {
+    font-size: 4.2rem;
+}
+
+h2 {
+    font-size: 3rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+h1,h2,h3 {
+    margin: 1em inherit;
+}
+
+.error {
+    color: #FF6347;
+}
+
+#timesheet-generator {
+    max-width: 8in;
+    margin: 0 auto;
+}
+
+#timesheet-generator .submit {
+    text-align: center;
+}
+
+#timesheet-generator table {
+    width: 95%;
+}
+
+#week-selector {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0;
+}
+
+table tr {
+    padding: 0.25em 0;
+}
+
+table th,td {
+    padding: 0 0.25em;
+}
+
+#daily-time-input {
+    margin: 1em auto;
+}
+
+.form-section {
+    margin: 1em 0.5em;
+}
+
+.flex-subsection {
+    display: flex;
+}
+
+.flex-subsection > .col {
+    flex: 1;
+}
+
+.flex-subsection > .col > * {
+    margin: 1em 0.5em;
+}
+
+#week-selector > * {
+    margin: 0 2em;
+}
+
+#calendar-widget-container {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: center;
+}
+
+#events-this-month {
+    padding: 1em;
+    width: 100%;
+}
+
+ul#events-this-month-list {
+    list-style-type: none;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+ul#events-this-month-list > li {
+    padding: 0.5em;
+    width: 42%;
+    margin: 1.5em 0;
+    border-radius: 0.25em;
+    border: 1px solid #aaa;
+    box-shadow: 0 0.1em black;
+}
+
+@media (max-width: 750px) {
+    ul#events-this-month-list {
+        justify-content: space-around;
+    }
+
+    ul#events-this-month-list > li {
+        width: 90%;
+    }
+}
+
+
+p.event-summary {
+    margin: 0.5em 0;
+}
+
+#calendar-widget {
+    padding: 0px;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+div.clndr-controls {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    padding: 0.5em;
+}
+
+div.clndr-controls > * {
+    min-width: 1.5em;
+    text-align: center;
+    margin: 0.5em;
+}
+
+div.days {
+    width: 100%;
+}
+
+div.day, div.header-day {
+    width: 14.285%; /* approximately one seventh */
+    text-align: center;
+    float: left;
+    padding: 1em 0;
+}
+
+div.header-day {
+    background-color: #caa;
+}
+
+div.day {
+    background-color: #fcc;
+}
+
+div.day.event {
+    font-weight: bold;
+}
+
+.b21-red {
+    color: #564D4A;
+}
+
+.nomargin {
+    margin: 0;
+}
+
+div.clndr {
+    width: 100%;
+}
+
+div#info-boxes > * {
+    padding: 1em 0;
+}
+
+div#info-boxes h4 {
+    text-align: center;
+}
+
+div#info-boxes > :first-child {
+    border-top: 1px solid black;
+}
+
+
+div#info-boxes > :nth-child(n + 1) {
+    border-bottom: 1px solid black;
+}
