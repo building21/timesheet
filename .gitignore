@@ -17,6 +17,7 @@ __pycache__/
 # project config files
 settings.cfg
 prod_setting.cfg
+.remote-deploy.env
 
 # hide generated pdfs, but keep the file structure
 static/pdf/*
