@@ -4,7 +4,7 @@ After=network-online.target
 
 [Service]
 User=b21
-ExecStart=/usr/bin/bash -c 'cd /home/b21/timesheet; source bin/activate; uwsgi --ini timesheet.ini --plugin python3'
+ExecStart=bin/bash -c 'cd /home/b21/timesheet; uwsgi --ini timesheet.ini'
 
 [Install]
 WantedBy=multi-user.target
