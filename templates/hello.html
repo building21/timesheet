@@ -24,31 +24,36 @@
 		<div class="form-section">
 			<h2> Personal data </h2>
 
-			<div class="flex-subsection">
-				<div class="col-12">
-					<div class="form-field">
-						{{ form.name.label }}
-						{{ form.name }}
-					</div>
+			<div class="row">
+				<div class="form-field six columns">
+					{{ form.name.label }}
+					{{ form.name }}
+				</div>
 
-					<div class="form-field">
-						{{ form.mcgill_id.label }}
-						{{ form.mcgill_id }}
-						{% if form.mcgill_id.errors %}
-							<ul class="error">
-								{% for error in form.mcgill_id.errors %}
-									<li class="error">{{ error }}</li>
-								{% endfor %}
-							</ul>
-						{% endif %}
-					</div>
-
-					<div class="form-field">
-						{{ form.hourly_rate.label }}
-						{{ form.hourly_rate }}
-					</div>
+				<div class="form-field six columns">
+					{{ form.mcgill_id.label }}
+					{{ form.mcgill_id }}
+					{% if form.mcgill_id.errors %}
+						<ul class="error">
+							{% for error in form.mcgill_id.errors %}
+								<li class="error">{{ error }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="form-field six columns">
+					{{ form.hourly_rate.label }}
+					{{ form.hourly_rate }}
+				</div>
+
+				<div class="form-field six columns">
+					{{ form.fund_number.label }}
+					{{ form.fund_number }}
+				</div>
+			</div>					
 		</div>
 
 		<div class="form-section">

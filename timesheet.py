@@ -41,6 +41,7 @@ class TimesheetForm(FlaskForm):
 	name = TextField('Name:', validators=[validators.required()])
 	mcgill_id = IntegerField('McGill ID:', validators=[validators.required(), validators.NumberRange(min=260000000, max=260999999, message="Are you sure that looks like a McGill ID number?")])
 	hourly_rate = DecimalField('Hourly rate:', validators=[validators.required()])
+	fund_number = IntegerField('Fund number:', validators=[validators.optional()])
 
 	week_of_year = SelectField('Week of:', validators=[validators.required()], default=str(datetime.date.today().year),
 		choices=[('2020', '2020'), 
@@ -119,7 +120,6 @@ def render_timesheet_form():
 
 		return redirect(url_for('static', filename=pdf))
 
-	print(form.errors)
 	return render_template('hello.html', form=form)
 
 def generate_timesheet(form):
@@ -145,6 +145,7 @@ def generate_timesheet(form):
 	thursday_hours = ''
 	friday_hours = ''
 	saturday_hours = ''
+	fund = ''
 
 	def calc_hours_worked(time_in, time_out):
 		hours = datetime.datetime.combine(datetime.date.today(), time_out.data) - datetime.datetime.combine(datetime.date.today(), time_in.data)
@@ -169,6 +170,8 @@ def generate_timesheet(form):
 	name = form['name'].data
 	mcgill_id = form['mcgill_id'].data
 	hourly_rate = float(form['hourly_rate'].data)
+	if form['fund_number'].data is not None:
+		fund = form['fund_number'].data
 
 	week = datetime.date(int(form['week_of_year'].data), int(form['week_of_month'].data), int(form['week_of_day'].data))
 	# find the closest past sunday
@@ -222,7 +225,6 @@ def generate_timesheet(form):
 
 	department = 'Building 21'
 	signature_date = datetime.date.today()
-	fund = app.config["FUND_INFO"]
 	annotations = [
 		('name', 160, 667, 175, 20),
 		('mcgill_id', 395, 667, 100, 20),
