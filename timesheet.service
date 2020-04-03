@@ -4,7 +4,10 @@ After=network-online.target
 
 [Service]
 User=b21
-ExecStart=bin/bash -c 'cd /home/b21/timesheet; uwsgi --ini timesheet.ini'
+ExecStart=/usr/bin/uwsgi --ini /home/b21/timesheet/timesheet.ini
+KillSignal=SIGQUIT
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target
