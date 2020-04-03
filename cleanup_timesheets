@@ -1,0 +1,5 @@
+# /etc/cron.d/cleanup_timesheets: crontab entry for cleaning up timesheets
+#
+SHELL=/bin/sh
+
+*/30 * * * * /home/b21/timesheet/cleanup_timesheets.sh >> /home/b21/cleanup.log 2>&1
