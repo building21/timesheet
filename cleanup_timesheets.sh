@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 files="$(find "$(dirname $0)/static/pdf" -iname "*.pdf" -mmin +30 | wc -l)"
 echo "[`date`]: Deleted $files generated pdf files"
