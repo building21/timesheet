@@ -3,7 +3,7 @@ from wtforms import Form, validators, TextField, IntegerField, DecimalField, Sel
 from wtforms.widgets import Input
 from flask_wtf import FlaskForm, RecaptchaField
 from pdf_annotate import PdfAnnotator, Location, Appearance
-import time, datetime, random, string, os, pytz, alignment
+import time, datetime, random, string, os, pytz, constants
 
 
 app = Flask(__name__)
@@ -43,60 +43,17 @@ class TimesheetForm(FlaskForm):
 	hourly_rate = DecimalField('Hourly rate:', validators=[validators.required()])
 	fund_number = IntegerField('Fund number:', validators=[validators.optional()])
 	timesheet_template = SelectField('Timesheet template:', validators=[validators.required()], default='1',
-		choices=[('1', 'Academic Casual'),
-				('2', 'Administrative & support staff (casual)')])
+		choices=constants.timesheet_template_choices)
 
 	default_date = datetime.datetime.now()
 	default_date_montreal = pytz.timezone('America/Toronto').localize(default_date)
 
 	week_of_year = SelectField('Week of:', validators=[validators.required()], default=str(default_date_montreal.year),
-		choices=[('2020', '2020'), 
-				('2021', '2021')])
+		choices=constants.week_of_year_choices)
 	week_of_month = SelectField('Week of:', validators=[validators.required()], default=str(default_date_montreal.month),
-		choices=[('1', 'Jan'),
-				('2', 'Feb'),
-				('3', 'Mar'),
-				('4', 'Apr'),
-				('5', 'May'),
-				('6', 'Jun'),
-				('7', 'Jul'),
-				('8', 'Aug'),
-				('9', 'Sep'),
-				('10', 'Oct'),
-				('11', 'Nov'),
-				('12', 'Dec')])
+		choices=constants.week_of_month_choices)
 	week_of_day = SelectField('Week of:', validators=[validators.required()], default=str(default_date_montreal.day),
-		choices=[('1', '1'),
-				('2', '2'),
-				('3', '3'),
-				('4', '4'),
-				('5', '5'),
-				('6', '6'),
-				('7', '7'),
-				('8', '8'),
-				('9', '9'),
-				('10', '10'),
-				('11', '11'),
-				('12', '12'),
-				('13', '13'),
-				('14', '14'),
-				('15', '15'),
-				('16', '16'),
-				('17', '17'),
-				('18', '18'),
-				('19', '19'),
-				('20', '20'),
-				('21', '21'),
-				('22', '22'),
-				('23', '23'),
-				('24', '24'),
-				('25', '25'),
-				('26', '26'),
-				('27', '27'),
-				('28', '28'),
-				('29', '29'),
-				('30', '30'),
-				('31', '31')])
+		choices=constants.week_of_day_choices)
 
 	sunday_in = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
 	sunday_out = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))#, validators=[OutTimeValidator('sunday_in'])])
@@ -226,12 +183,12 @@ def generate_timesheet(form):
 
 	if form['timesheet_template'].data == '1':
 		base_timesheet = 'academic_casual_timesheet_-_2017_0.pdf'
-		annotations = alignment.annotations_academic_casual_timesheet
-		personal_data = alignment.personal_data_academic_casual_timesheet
+		annotations = constants.annotations_academic_casual_timesheet
+		personal_data = constants.personal_data_academic_casual_timesheet
 	else:
 		base_timesheet = 'admin_support_staff_casual_employee_timesheet_-_2017.pdf'
-		annotations = alignment.annotations_admin_support_staff_casual_employee_timesheet
-		personal_data = alignment.personal_data_admin_support_staff_casual_employee_timesheet
+		annotations = constants.annotations_admin_support_staff_casual_employee_timesheet
+		personal_data = constants.personal_data_admin_support_staff_casual_employee_timesheet
 
 
 	pdf_out_dir = 'pdf/'
