@@ -9,5 +9,6 @@ MarkupSafe==1.1.1
 pdf-annotate==0.11.0
 pdfrw==0.4
 Pillow==7.0.0
+pytz==2019.3
 Werkzeug==1.0.0
 WTForms==2.2.1

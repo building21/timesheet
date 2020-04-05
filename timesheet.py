@@ -3,7 +3,7 @@ from wtforms import Form, validators, TextField, IntegerField, DecimalField, Sel
 from wtforms.widgets import Input
 from flask_wtf import FlaskForm, RecaptchaField
 from pdf_annotate import PdfAnnotator, Location, Appearance
-import time, datetime, random, string, os, alignment
+import time, datetime, random, string, os, pytz, alignment
 
 
 app = Flask(__name__)
@@ -46,10 +46,13 @@ class TimesheetForm(FlaskForm):
 		choices=[('1', 'Academic Casual'),
 				('2', 'Administrative & support staff (casual)')])
 
-	week_of_year = SelectField('Week of:', validators=[validators.required()], default=str(datetime.date.today().year),
+	default_date = datetime.datetime.now()
+	default_date_montreal = pytz.timezone('America/Toronto').localize(default_date)
+
+	week_of_year = SelectField('Week of:', validators=[validators.required()], default=str(default_date_montreal.year),
 		choices=[('2020', '2020'), 
 				('2021', '2021')])
-	week_of_month = SelectField('Week of:', validators=[validators.required()], default=str(datetime.date.today().month),
+	week_of_month = SelectField('Week of:', validators=[validators.required()], default=str(default_date_montreal.month),
 		choices=[('1', 'Jan'),
 				('2', 'Feb'),
 				('3', 'Mar'),
@@ -62,7 +65,7 @@ class TimesheetForm(FlaskForm):
 				('10', 'Oct'),
 				('11', 'Nov'),
 				('12', 'Dec')])
-	week_of_day = SelectField('Week of:', validators=[validators.required()], default=str(datetime.date.today().day),
+	week_of_day = SelectField('Week of:', validators=[validators.required()], default=str(default_date_montreal.day),
 		choices=[('1', '1'),
 				('2', '2'),
 				('3', '3'),
