@@ -18,6 +18,7 @@ python3 -m venv .
 pip install -r requirements.txt
 deactivate
 echo '>>> RELOAD SYSTEMD UWSGI PROCESS'
+echo '>>> This may take a while...'
 sudo cp timesheet.service /etc/systemd/system/timesheet.service
 sudo systemctl daemon-reload
 sudo systemctl restart timesheet

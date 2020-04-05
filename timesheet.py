@@ -3,7 +3,7 @@ from wtforms import Form, validators, TextField, IntegerField, DecimalField, Sel
 from wtforms.widgets import Input
 from flask_wtf import FlaskForm, RecaptchaField
 from pdf_annotate import PdfAnnotator, Location, Appearance
-import time, datetime, random, string, os
+import time, datetime, random, string, os, alignment
 
 
 app = Flask(__name__)
@@ -42,6 +42,9 @@ class TimesheetForm(FlaskForm):
 	mcgill_id = IntegerField('McGill ID:', validators=[validators.required(), validators.NumberRange(min=260000000, max=260999999, message="Are you sure that looks like a McGill ID number?")])
 	hourly_rate = DecimalField('Hourly rate:', validators=[validators.required()])
 	fund_number = IntegerField('Fund number:', validators=[validators.optional()])
+	timesheet_template = SelectField('Timesheet template:', validators=[validators.required()], default='1',
+		choices=[('1', 'Academic Casual'),
+				('2', 'Administrative & support staff (casual)')])
 
 	week_of_year = SelectField('Week of:', validators=[validators.required()], default=str(datetime.date.today().year),
 		choices=[('2020', '2020'), 
@@ -218,56 +221,23 @@ def generate_timesheet(form):
 
 	total_money = round(total_hours * hourly_rate,2)
 
-	base_timesheet = 'academic_casual_timesheet_-_2017_0.pdf'
+	if form['timesheet_template'].data == '1':
+		base_timesheet = 'academic_casual_timesheet_-_2017_0.pdf'
+		annotations = alignment.annotations_academic_casual_timesheet
+		personal_data = alignment.personal_data_academic_casual_timesheet
+	else:
+		base_timesheet = 'admin_support_staff_casual_employee_timesheet_-_2017.pdf'
+		annotations = alignment.annotations_admin_support_staff_casual_employee_timesheet
+		personal_data = alignment.personal_data_admin_support_staff_casual_employee_timesheet
+
+
 	pdf_out_dir = 'pdf/'
 	out_file = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)]) + '.pdf'
 	out_path = pdf_out_dir + out_file
 
 	department = 'Building 21'
 	signature_date = datetime.date.today()
-	annotations = [
-		('name', 160, 667, 175, 20),
-		('mcgill_id', 395, 667, 100, 20),
-		('department', 150, 630, 100, 20),
-		('week_start', 210, 592, 90, 20),
-		('week_end', 390, 592, 90, 20),
-		('signature_date', 250, 321, 90, 20),
-		('fund', 70, 220, 90, 20)
-	]
-
-	personal_data = [
-		('sunday_in', 221, 512, 54, 20),
-		('sunday_out', 276, 512, 42, 20),
-		('sunday_hours', 362, 512, 55, 20),
-		
-		('monday_in', 221, 491, 54, 20),
-		('monday_out', 276, 491, 42, 20),
-		('monday_hours', 362, 491, 55, 20),
-		
-		('tuesday_in', 221, 470, 54, 20),
-		('tuesday_out', 276, 470, 42, 20),
-		('tuesday_hours', 362, 470, 55, 20),
-		
-		('wednesday_in', 221, 448, 54, 20),
-		('wednesday_out', 276, 448, 42, 20),
-		('wednesday_hours', 362, 448, 55, 20),
-		
-		('thursday_in', 221, 427, 54, 20),
-		('thursday_out', 276, 427, 42, 20),
-		('thursday_hours', 362, 427, 55, 20),
-		
-		('friday_in', 221, 406, 54, 20),
-		('friday_out', 276, 406, 42, 20),
-		('friday_hours', 362, 406, 55, 20),
-		
-		('saturday_in', 221, 385, 54, 20),
-		('saturday_in', 276, 385, 42, 20),
-		('saturday_hours', 362, 385, 55, 20),
-
-		('total_hours', 362, 363, 55, 20),
-		('hourly_rate', 362, 342, 55, 20),
-		('total_money', 362, 321, 55, 20),
-	]
+	
 
 	timesheet = PdfAnnotator(base_timesheet)
 	
