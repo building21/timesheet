@@ -1,3 +1,17 @@
+@font-face {
+  font-family: futura-pt;
+  src: url("https://use.typekit.net/af/9b05f3/000000000000000000013365/27/l?subset_id=2&fvd=n4&v=3") format("woff2"), url("https://use.typekit.net/af/9b05f3/000000000000000000013365/27/d?subset_id=2&fvd=n4&v=3") format("woff"), url("https://use.typekit.net/af/9b05f3/000000000000000000013365/27/a?subset_id=2&fvd=n4&v=3") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: freight-display-pro;
+  src: url("https://use.typekit.net/af/f15774/0000000000000000000132cf/27/l?subset_id=2&fvd=n4&v=3") format("woff2"), url("https://use.typekit.net/af/f15774/0000000000000000000132cf/27/d?subset_id=2&fvd=n4&v=3") format("woff"), url("https://use.typekit.net/af/f15774/0000000000000000000132cf/27/a?subset_id=2&fvd=n4&v=3") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -6,16 +20,28 @@ html {
     min-height: 100%;
 }
 
+label {
+    font-family: 'futura-pt';
+}
+
+th {
+    font-family: 'futura-pt';
+}
+
 h1 {
     font-size: 4.2rem;
+    font-weight: bold;
+    font-family: 'futura-pt';
 }
 
 h2 {
     font-size: 3rem;
+    font-family: 'futura-pt';
 }
 
 h3 {
     font-size: 2rem;
+    font-family: 'futura-pt';
 }
 
 h1,h2,h3 {
@@ -33,6 +59,7 @@ h1,h2,h3 {
 
 #timesheet-generator .submit {
     text-align: center;
+    font-family: 'futura-pt';
 }
 
 #timesheet-generator table {
@@ -60,7 +87,11 @@ table th,td {
 }
 
 .form-field > input {
-    width: 100%
+    width: 100%;
+}
+
+.form-field > select {
+    width: 100%;
 }
 
 .form-section {
