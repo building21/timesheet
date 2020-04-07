@@ -22,12 +22,31 @@ class OutTimeValidator(object):
 	def __call__(self, form, field):
 		other = form[self.in_time_field]
 
+		if other.data is None:
+			message = "Must submit an in time for the day"
+			raise ValidationError(message)
+
 		in_time = other.data
 		out_time = field.data
 
 		if out_time < in_time:
 			message = "Out time must be after the in time for the day"
 			raise ValidationError(message)
+
+class InTimeValidator(object):
+	"""
+	Compares the in and out times to ensure the out time is after the in time.
+	:param in_time_field:
+		The name of the in_time field to compare to.
+	"""
+
+	def __init__(self, out_time_field):
+		self.out_time_field = out_time_field
+
+	def __call__(self, form, field):
+		if form[self.out_time_field].data is None:
+			message = "Must submit an out time for the day"
+			raise ValidationError(message)		
 
 
 class TimesheetForm(FlaskForm):
@@ -55,20 +74,20 @@ class TimesheetForm(FlaskForm):
 	week_of_day = SelectField('Week of:', validators=[validators.required()], default=str(default_date_montreal.day),
 		choices=constants.week_of_day_choices)
 
-	sunday_in = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	sunday_out = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))#, validators=[OutTimeValidator('sunday_in'])])
-	monday_in = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	monday_out = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	tuesday_in = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	tuesday_out = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	wednesday_in = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	wednesday_out = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	thursday_in = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	thursday_out = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	friday_in = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	friday_out = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	saturday_in = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
-	saturday_out = TimeField(validators=[validators.optional()], widget=Input(input_type='time'))
+	sunday_in = TimeField(validators=[validators.optional(), InTimeValidator('sunday_out')], widget=Input(input_type='time'))
+	sunday_out = TimeField(validators=[validators.optional(), OutTimeValidator('sunday_in')], widget=Input(input_type='time'))
+	monday_in = TimeField(validators=[validators.optional(), InTimeValidator('monday_out')], widget=Input(input_type='time'))
+	monday_out = TimeField(validators=[validators.optional(), OutTimeValidator('monday_in')], widget=Input(input_type='time'))
+	tuesday_in = TimeField(validators=[validators.optional(), InTimeValidator('tuesday_out')], widget=Input(input_type='time'))
+	tuesday_out = TimeField(validators=[validators.optional(), OutTimeValidator('tuesday_in')], widget=Input(input_type='time'))
+	wednesday_in = TimeField(validators=[validators.optional(), InTimeValidator('wednesday_out')], widget=Input(input_type='time'))
+	wednesday_out = TimeField(validators=[validators.optional(), OutTimeValidator('wednesday_in')], widget=Input(input_type='time'))
+	thursday_in = TimeField(validators=[validators.optional(), InTimeValidator('thursday_out')], widget=Input(input_type='time'))
+	thursday_out = TimeField(validators=[validators.optional(), OutTimeValidator('thursday_in')], widget=Input(input_type='time'))
+	friday_in = TimeField(validators=[validators.optional(), InTimeValidator('friday_out')], widget=Input(input_type='time'))
+	friday_out = TimeField(validators=[validators.optional(), OutTimeValidator('friday_in')], widget=Input(input_type='time'))
+	saturday_in = TimeField(validators=[validators.optional(), InTimeValidator('saturday_out')], widget=Input(input_type='time'))
+	saturday_out = TimeField(validators=[validators.optional(), OutTimeValidator('saturday_in')], widget=Input(input_type='time'))
 
 	# recaptcha = RecaptchaField()
 
@@ -83,6 +102,8 @@ def render_timesheet_form():
 
 		return redirect(url_for('static', filename=pdf))
 
+	if form.sunday_in.errors or form.sunday_out.errors:
+		print(form.sunday_in.errors, form.sunday_in.errors)
 	return render_template('hello.html', form=form)
 
 def generate_timesheet(form):
@@ -132,7 +153,7 @@ def generate_timesheet(form):
 
 	name = form['name'].data
 	mcgill_id = form['mcgill_id'].data
-	hourly_rate = float(form['hourly_rate'].data)
+	hourly_rate = round(float(form['hourly_rate'].data),2)
 	if form['fund_number'].data is not None:
 		fund = form['fund_number'].data
 

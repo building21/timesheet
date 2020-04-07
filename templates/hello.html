@@ -25,26 +25,19 @@
 			<h2>Personal data</h2>
 
 			<div class="row">
-				<div class="form-field six columns">
+				<div class="form-field six columns {% if form.name.errors %}personal-data-error{% endif %}">
 					{{ form.name.label }}
 					{{ form.name }}
 				</div>
 
-				<div class="form-field six columns">
+				<div class="form-field six columns {% if form.mcgill_id.errors %}personal-data-error{% endif %}">
 					{{ form.mcgill_id.label }}
-					{{ form.mcgill_id }}
-					{% if form.mcgill_id.errors %}
-						<ul class="error">
-							{% for error in form.mcgill_id.errors %}
-								<li class="error">{{ error }}</li>
-							{% endfor %}
-						</ul>
-					{% endif %}
+					{{ form.mcgill_id }}					
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="form-field six columns">
+				<div class="form-field six columns {% if form.hourly_rate.errors %}personal-data-error{% endif %}">
 					{{ form.hourly_rate.label }}
 					{{ form.hourly_rate }}
 				</div>
@@ -94,43 +87,43 @@
 				<th>Time out</th>
 			</tr>
 
-			<tr>
+			<tr {% if form.sunday_in.errors or form.sunday_out.errors %}class="time-error"{% endif %}>
 				<td>Sunday</td>	
-				<td>{{ form.sunday_in }}</td>
+				<td>{{ form.sunday_in }}</td>				
 				<td>{{ form.sunday_out }}</td>
 			</tr>
 
-			<tr>
+			<tr {% if form.monday_in.errors or form.monday_out.errors %}class="time-error"{% endif %}>
 				<td>Monday</td>	
 				<td>{{ form.monday_in }}</td>
 				<td>{{ form.monday_out }}</td>
 			</tr>
 
-			<tr>
+			<tr {% if form.tuesday_in.errors or form.tuesday_out.errors %}class="time-error"{% endif %}>
 				<td>Tuesday</td>	
 				<td>{{ form.tuesday_in }}</td>
 				<td>{{ form.tuesday_out }}</td>
 			</tr>
 
-			<tr>
+			<tr {% if form.wednesday_in.errors or form.wednesday_out.errors %}class="time-error"{% endif %}>
 				<td>Wednesday</td>	
 				<td>{{ form.wednesday_in }}</td>
 				<td>{{ form.wednesday_out }}</td>
 			</tr>
 
-			<tr>
+			<tr {% if form.thursday_in.errors or form.thursday_out.errors %}class="time-error"{% endif %}>
 				<td>Thursday</td>	
 				<td>{{ form.thursday_in }}</td>
 				<td>{{ form.thursday_out }}</td>
 			</tr>
 
-			<tr>
+			<tr {% if form.friday_in.errors or form.friday_out.errors %}class="time-error"{% endif %}>
 				<td>Friday</td>	
 				<td>{{ form.friday_in }}</td>
 				<td>{{ form.friday_out }}</td>
 			</tr>
 
-			<tr>
+			<tr {% if form.saturday_in.errors or form.saturday_out.errors %}class="time-error"{% endif %}>
 				<td>Saturday</td>	
 				<td>{{ form.saturday_in }}</td>
 				<td>{{ form.saturday_out }}</td>

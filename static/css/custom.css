@@ -48,8 +48,18 @@ h1,h2,h3 {
     margin: 1em inherit;
 }
 
+.personal-data-error input {
+    border: red 2px solid !important;
+    border-radius: 2px !important;
+}
+
 .error {
     color: #FF6347;
+}
+
+tr.time-error input[type=time] {
+    border: red 2px solid;
+    border-radius: 2px;
 }
 
 #timesheet-generator {
