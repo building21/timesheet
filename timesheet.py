@@ -12,8 +12,9 @@ app.config.from_envvar('FLASK_APP_SETTINGS')
 class OutTimeValidator(object):
 	"""
 	Compares the in and out times to ensure the out time is after the in time.
+	Checks for a in time value.
 	:param in_time_field:
-		The name of the in_time field to compare to.
+		The name of the in_time field to check and compare to.
 	"""
 
 	def __init__(self, in_time_field):
@@ -35,9 +36,9 @@ class OutTimeValidator(object):
 
 class InTimeValidator(object):
 	"""
-	Compares the in and out times to ensure the out time is after the in time.
-	:param in_time_field:
-		The name of the in_time field to compare to.
+	Checks for an out time value.
+	:param out_time_field:
+		The name of the out_time field to check.
 	"""
 
 	def __init__(self, out_time_field):
@@ -213,11 +214,13 @@ def generate_timesheet(form):
 
 
 	pdf_out_dir = 'pdf/'
-	out_file = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)]) + '.pdf'
+	out_file = form['name'].data + ' ' + week_start.strftime('%d %b %Y') + '.pdf'
+	# out_file = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)]) + '.pdf'
 	out_path = pdf_out_dir + out_file
 
 	department = 'Building 21'
-	signature_date = datetime.date.today()
+	default_date = datetime.datetime.now()
+	signature_date = pytz.timezone('America/Toronto').localize(default_date)
 	
 
 	timesheet = PdfAnnotator(base_timesheet)
