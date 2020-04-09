@@ -219,8 +219,7 @@ def generate_timesheet(form):
 	out_path = pdf_out_dir + out_file
 
 	department = 'Building 21'
-	default_date = datetime.datetime.now()
-	signature_date = pytz.timezone('America/Toronto').localize(default_date)
+	signature_date = datetime.date.today()
 	
 
 	timesheet = PdfAnnotator(base_timesheet)
