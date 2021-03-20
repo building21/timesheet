@@ -4,7 +4,7 @@ Flask==1.1.1
 Flask-WTF==0.14.3
 fonttools==4.6.0
 itsdangerous==1.1.0
-Jinja2==2.11.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 pdf-annotate==0.11.0
 pdfrw==0.4
